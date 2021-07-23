@@ -1,5 +1,8 @@
 name: Deploy Window
 description: Stop GitHub Actions deployments outside of a given time window.
+branding:
+  icon: calendar
+  color: red
 author: Alexander Lang
 inputs:
   earliest-hour:
