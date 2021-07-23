@@ -10,7 +10,7 @@ idea to not deploy on weekends or during the night.
 In your GitHub workflow file:
 
 ```yml
-on: [push]
+on: [push] # force deploy only works on the latest commit of a push event
 
 jobs:
   should_deploy:
@@ -21,11 +21,12 @@ jobs:
     steps:
       - id: decide
         uses: cobot/deploy-window-action@v1
-        with: # all optional
+        with: # all optional, see action.yml for default values
           earliest-hour: "9"
           latest-hour: "17"
           latest-weekday: "5"
           time-zone: UTC
+          force-deploy-phrase: force deploy
   deploy:
     needs:
       - should_deploy

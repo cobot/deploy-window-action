@@ -18,6 +18,10 @@ inputs:
     description: The time zone to apply to the times.
     required: false
     default: UTC
+  force-deploy-phrase:
+    description: If a commit message contains this phrase, the deployment is forced.
+    required: false
+    default: force deploy
 outputs:
   deploy_or_not:
     description: Whether to deploy or not (yes|no)
@@ -33,8 +37,9 @@ runs:
         EARLIEST_HOUR: ${{ inputs.earliest-hour }}
         LATEST_HOUR: ${{ inputs.latest-hour }}
         LATEST_WEEKDAY: ${{ inputs.latest-weekday }}
+        FORCE_DEPLOY_PHRASE: ${{ inputs.force-deploy-phrase }}
       run: |
-        grep -q "force deploy" <<< "$COMMIT_MESSAGE" ||
+        grep -q "$FORCE_DEPLOY_PHRASE" <<< "$COMMIT_MESSAGE" ||
           (test `date "+%u"` -le $LATEST_WEEKDAY && \
           test `date "+%H"` -ge $EARLIEST_HOUR && \
           test `date "+%H"` -lt $LATEST_HOUR) && \
